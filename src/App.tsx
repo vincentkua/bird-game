@@ -6,7 +6,7 @@ function App() {
     <div className="App">
       <h1
         style={{
-          fontSize: "2.5rem",
+          fontSize: "2rem",
           color: "#1976d2",
           margin: "2rem 0 1rem 0",
           fontWeight: "bold",
@@ -17,6 +17,7 @@ function App() {
         Flappy Bird
       </h1>
       <Game />
+      <div style={{height: "6rem"}} />
     </div>
   );
 }

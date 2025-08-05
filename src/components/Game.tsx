@@ -3,8 +3,6 @@ import Pipe from "./Pipe";
 import Score from "./Score";
 import React, { useState, useEffect, useRef } from "react";
 
-const GRAVITY = 0.6;
-const FLAP = -8;
 const PIPE_WIDTH = 60;
 const PIPE_GAP = 140;
 const BIRD_SIZE = 32;
@@ -14,6 +12,9 @@ const GAME_HEIGHT = 600;
 function getRandomPipeY() {
   return Math.floor(Math.random() * (GAME_HEIGHT - PIPE_GAP - 100)) + 50;
 }
+
+const getGravity = () => (window.innerWidth < 500 ? 0.35 : 0.6);
+const getFlap = () => (window.innerWidth < 500 ? -5 : -8);
 
 const Game: React.FC = () => {
   const [birdY, setBirdY] = useState(GAME_HEIGHT / 2);
@@ -27,7 +28,7 @@ const Game: React.FC = () => {
     if (gameOver) return;
     const interval = setInterval(() => {
       setBirdY((y) => Math.max(0, y + birdVelocity));
-      setBirdVelocity((v) => v + GRAVITY);
+      setBirdVelocity((v) => v + getGravity());
       setPipes((prev) => {
         let newPipes = prev.map((pipe) => ({ ...pipe, x: pipe.x - 2 }));
         if (newPipes[0].x < -PIPE_WIDTH) {
@@ -65,7 +66,7 @@ const Game: React.FC = () => {
       setScore(0);
       setGameOver(false);
     } else {
-      setBirdVelocity(FLAP);
+      setBirdVelocity(getFlap());
     }
   };
 
