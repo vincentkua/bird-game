@@ -6,8 +6,6 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 const PIPE_WIDTH = 60;
 const PIPE_GAP = 140;
 const BIRD_SIZE = 32;
-const PIPE_LIP_HEIGHT = 20;
-const PIPE_LIP_WIDTH = PIPE_WIDTH + 16;
 const GAME_WIDTH = 400;
 const GAME_HEIGHT = 600;
 
