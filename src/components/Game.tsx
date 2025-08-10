@@ -48,12 +48,21 @@ const Game: React.FC = () => {
       setGameOver(true);
     }
     pipes.forEach((pipe) => {
-      if (
-        pipe.x < 60 + BIRD_SIZE &&
-        pipe.x + PIPE_WIDTH > 60 &&
-        (birdY < pipe.y || birdY + BIRD_SIZE > pipe.y + PIPE_GAP)
-      ) {
-        setGameOver(true);
+      const birdLeft = 60;
+      const birdRight = 60 + BIRD_SIZE;
+      const birdTop = birdY;
+      const birdBottom = birdY + BIRD_SIZE;
+      
+      // Main pipe collision (accounting for lips)
+      const pipeLeft = pipe.x - 8; // Account for lip extension
+      const pipeRight = pipe.x + PIPE_WIDTH + 8; // Account for lip extension
+      
+      // Check if bird is in horizontal range of pipe
+      if (birdRight > pipeLeft && birdLeft < pipeRight) {
+        // Check if bird is outside the gap (collision with pipe)
+        if (birdTop < pipe.y || birdBottom > pipe.y + PIPE_GAP) {
+          setGameOver(true);
+        }
       }
     });
   }, [birdY, pipes]);
