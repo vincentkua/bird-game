@@ -20,7 +20,7 @@ const Pipe: React.FC<{ x: number; y: number }> = ({ x, y }) => (
         border: "2px solid #1b5e20",
         borderBottom: "none",
         zIndex: 1,
-        backgroundImage: `repeating-linear-gradient(90deg, transparent, transparent 8px, rgba(29, 94, 32, 0.3) 8px, rgba(29, 94, 32, 0.3) 10px)`,
+        backgroundImage: `repeating-linear-gradient(90deg, rgba(45, 125, 50, 0.9), rgba(45, 125, 50, 0.9) 8px, rgba(29, 94, 32, 0.7) 8px, rgba(29, 94, 32, 0.7) 10px)`,
       }}
     />
     {/* Top pipe lip */}
@@ -51,7 +51,7 @@ const Pipe: React.FC<{ x: number; y: number }> = ({ x, y }) => (
         border: "2px solid #1b5e20",
         borderTop: "none",
         zIndex: 1,
-        backgroundImage: `repeating-linear-gradient(90deg, transparent, transparent 8px, rgba(29, 94, 32, 0.3) 8px, rgba(29, 94, 32, 0.3) 10px)`,
+        backgroundImage: `repeating-linear-gradient(90deg, rgba(45, 125, 50, 0.9), rgba(45, 125, 50, 0.9) 8px, rgba(29, 94, 32, 0.7) 8px, rgba(29, 94, 32, 0.7) 10px)`,
       }}
     />
     {/* Bottom pipe lip */}
