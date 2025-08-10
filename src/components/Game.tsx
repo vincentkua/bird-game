@@ -1,7 +1,7 @@
 import Bird from "./Bird";
 import Pipe from "./Pipe";
 import Score from "./Score";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 
 const PIPE_WIDTH = 60;
 const PIPE_GAP = 140;
@@ -30,7 +30,7 @@ const Game: React.FC = () => {
       setBirdY((y) => Math.max(0, y + birdVelocity));
       setBirdVelocity((v) => v + getGravity());
       setPipes((prev) => {
-        let newPipes = prev.map((pipe) => ({ ...pipe, x: pipe.x - 2 }));
+        const newPipes = prev.map((pipe) => ({ ...pipe, x: pipe.x - 2 }));
         if (newPipes[0].x < -PIPE_WIDTH) {
           newPipes.shift();
           newPipes.push({ x: GAME_WIDTH, y: getRandomPipeY() });
@@ -58,25 +58,29 @@ const Game: React.FC = () => {
     });
   }, [birdY, pipes]);
 
-  const handleFlap = () => {
-    if (gameOver) {
-      setBirdY(GAME_HEIGHT / 2);
-      setBirdVelocity(0);
-      setPipes([{ x: GAME_WIDTH, y: getRandomPipeY() }]);
-      setScore(0);
-      setGameOver(false);
-    } else {
+  const handleFlap = useCallback(() => {
+    if (!gameOver) {
       setBirdVelocity(getFlap());
     }
+  }, [gameOver]);
+
+  const handleRestart = () => {
+    setBirdY(GAME_HEIGHT / 2);
+    setBirdVelocity(0);
+    setPipes([{ x: GAME_WIDTH, y: getRandomPipeY() }]);
+    setScore(0);
+    setGameOver(false);
   };
 
   useEffect(() => {
     const handleSpace = (e: KeyboardEvent) => {
-      if (e.code === "Space") handleFlap();
+      if (e.code === "Space" && !gameOver) {
+        handleFlap();
+      }
     };
     window.addEventListener("keydown", handleSpace);
     return () => window.removeEventListener("keydown", handleSpace);
-  });
+  }, [gameOver, handleFlap]);
 
   return (
     <div
@@ -96,7 +100,7 @@ const Game: React.FC = () => {
         alignItems: "center",
         justifyContent: "center",
       }}
-      onClick={handleFlap}
+      onClick={!gameOver ? handleFlap : undefined}
       tabIndex={0}
     >
       <Bird y={birdY} />
@@ -170,27 +174,10 @@ const Game: React.FC = () => {
                 boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
                 marginTop: "0.5rem",
               }}
-              onClick={handleFlap}
+              onClick={handleRestart}
             >
               Restart
             </button>
-            <div
-              style={{
-                fontSize: "0.95rem",
-                color: "#666",
-                marginTop: "1.2rem",
-              }}
-            >
-              or press{" "}
-              <span
-                style={{
-                  color: "#d32f2f",
-                  fontWeight: "bold",
-                }}
-              >
-                Space
-              </span>
-            </div>
           </div>
         </div>
       )}
